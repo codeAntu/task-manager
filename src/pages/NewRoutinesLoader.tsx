@@ -4,14 +4,14 @@ import '../assets/scss/index.scss';
 import TextEmoji from '../components/TextEmoji';
 import { getDay, getEmojiByDay, getFormattedDate, getTime, incrementDate } from '../lib/date';
 import searchByDate, { Routine } from '../lib/dateMethods';
+import delay from '../lib/delay';
 import ls from '../lib/storage';
 import { useNavigate } from 'react-router-dom';
 import { capitalize } from '../lib/lib';
-import icons from '../assets/icons/icons';
-import delay from '../lib/delay';
+import { RoutineDescription } from './Routines';
 import RoutineView from './viewRoutine/RoutineView';
 import Loading from '../components/loading/Loading';
-import { RoutineDescription } from './Routines';
+import icons from '../assets/icons/icons';
 
 export default function NewRoutinesLoader() {
    const today = new Date();

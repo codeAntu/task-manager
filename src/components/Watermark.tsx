@@ -15,7 +15,7 @@ function Watermark({ visible }: any) {
             </span>
             <br />
             <span>
-               By Abinash <TextEmoji emoji='😊' />
+               By Ananta <TextEmoji emoji='😊' />
             </span>
          </p>
       </div>

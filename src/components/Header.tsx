@@ -1,7 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Emoji from 'emoji-store';
+import icons from '../assets/icons/icons';
 import headerIntersect from '../lib/headerIntersect';
+import Emoji from 'emoji-store';
 
 function Header(props: any) {
    const navigate = useNavigate();

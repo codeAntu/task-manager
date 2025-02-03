@@ -1,7 +1,7 @@
 const details = {
-   name: 'task-manager',
-   version: '1.0.0',
-   url: 'https://codeantu.github.io/task-manager/',
+   name: 'routine',
+   version: '3.8.1',
+   url: 'https://codeAntu.github.io/task-manager/',
 };
 export default details;
 

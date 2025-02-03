@@ -5,16 +5,16 @@ import icons from '../assets/icons/icons';
 import BackHeader from '../components/BackHeader';
 import { MS_IN_DAY, day, emojiList, isStartTimeGreater, routineOptions } from '../lib/date';
 import ls from '../lib/storage';
+import Daily from './makeRoutine/Daily';
+import Calendar from './makeRoutine/Calendar';
+import Once from './makeRoutine/Once';
+import Weekly from './makeRoutine/Weekly';
 import TextEmoji from '../components/TextEmoji';
 import BottomModal, { BasicModal } from '../components/BottomModal';
 import { MODAL_BUTTON_TEXT, capitalize, parseEmoji } from '../lib/lib';
+import OptionSelector from '../components/OptionSelector';
 import { df } from '../lib/delay';
 import { Routine } from '../lib/dateMethods';
-import OptionSelector from '../components/OptionSelector';
-import Once from './makeRoutine/Once';
-import Weekly from './makeRoutine/Weekly';
-import Daily from './makeRoutine/Daily';
-import Calendar from './makeRoutine/Calendar';
 
 function NewRoutine() {
    const e = new Emoji();

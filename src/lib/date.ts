@@ -28,13 +28,13 @@ export const routineOptions = [
 ];
 
 export function isStartTimeGreater(start: string, end: string) {
-   const startTime = start.split(':');
-   const endTime = end.split(':');
+   let startTime = start.split(':');
+   let endTime = end.split(':');
 
-   const startHour = parseInt(startTime[0]);
-   const startMinute = parseInt(startTime[1]);
-   const endHour = parseInt(endTime[0]);
-   const endMinute = parseInt(endTime[1]);
+   let startHour = parseInt(startTime[0]);
+   let startMinute = parseInt(startTime[1]);
+   let endHour = parseInt(endTime[0]);
+   let endMinute = parseInt(endTime[1]);
 
    if (startHour > endHour || (startHour === endHour && startMinute > endMinute)) return true;
    return false;
@@ -55,7 +55,7 @@ function currentDate() {
 }
 export function getTime(date: Date) {
    let hours = date.getHours();
-   const ap = hours >= 12 ? 'PM' : 'AM';
+   let ap = hours >= 12 ? 'PM' : 'AM';
    const minutes = date.getMinutes();
    if (hours > 12) {
       hours = hours - 12;
@@ -84,7 +84,7 @@ export function getFormattedDate(
    return dt + suffix + ' ' + date.toLocaleString('default', { month: monthType, year: yearType });
 }
 export function incrementDate(date: Date) {
-   const nextDate = new Date(date);
+   let nextDate = new Date(date);
    nextDate.setDate(nextDate.getDate() + 1);
    return nextDate;
 }
@@ -97,7 +97,7 @@ export function getISODate(date: Date) {
 }
 
 export function getISODateWithTime(dateString: string) {
-   const date = new Date(dateString);
+   let date = new Date(dateString);
    return date.toLocaleString();
 }
 

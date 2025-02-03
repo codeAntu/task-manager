@@ -1,126 +1,169 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import ls from "../lib/storage";
-import searchByDate, { Routine, searchActiveRoutine } from "../lib/dateMethods";
-import Header from "../components/Header";
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../assets/scss/index.scss';
+import FloatingButton from '../components/FloatingButton';
+import Header from '../components/Header';
+import NavBar from '../components/NavBar';
+import Watermark from '../components/Watermark';
 import getCurrentDate, { getEmojiOfDayByTime } from '../lib/date';
-import TextEmoji from "../components/TextEmoji";
-import LoadingRoutines from "../components/loading/LoadingRoutines";
-import NewRoutinesLoader, { GetRoutines } from "./NewRoutinesLoader";
-import FloatingButton from "../components/FloatingButton";
-import Watermark from "../components/Watermark";
-import NavBar from "../components/NavBar";
-import BottomModal from "../components/BottomModal";
+import searchByDate, { Routine, searchActiveRoutine } from '../lib/dateMethods';
+import ls from '../lib/storage';
+import NewRoutinesLoader, { GetRoutines } from './NewRoutinesLoader';
+import TextEmoji from '../components/TextEmoji';
+import Emoji from 'emoji-store';
+import delay, { df } from '../lib/delay';
+import BottomModal from '../components/BottomModal';
+import LoadingRoutines from '../components/loading/LoadingRoutines';
+import routines from '../lib/sampleTypes';
 
+// Delete the subscription if the subscription is expired
+const timer = setTimeout(() => {
+   console.log('Checking for expired subscriptions...');
+   let isDeletes = false;
+   const subscriptions = JSON.parse(ls.get('subscriptions') || '{}');
+   // console.log(subscriptions)
+   for (let key in subscriptions) {
+      let sub = subscriptions[key];
+      if (!sub.expiry) continue;
+      const expiry = new Date(sub.expiry);
+      const now = new Date();
+      if (now > expiry) {
+         console.log('Deleting...' + key);
+         delete subscriptions[key];
+         // Delete all routines having the 'sub' property in the routine
+         deleteRoutineBySub(key);
+         isDeletes = true;
+      }
+   }
+   // console.log(subscriptions)
+   ls.set('subscriptions', JSON.stringify(subscriptions));
+
+   // Show alert if deleted and reload
+   if (isDeletes) {
+      alert('Some subscriptions are expired and deleted.');
+      window.location.reload();
+   }
+}, 12000);
+
+const timer1 = setTimeout(() => {
+   backgroundRoutineUpdate();
+   console.log('Check for update...');
+}, 2000);
+
+function deleteRoutineBySub(subscriptionKey: string) {
+   const routines = JSON.parse(ls.get('routines') || '[]');
+   const newRoutines = routines.filter((routine: Routine) => routine.sub !== subscriptionKey);
+   ls.set('routines', JSON.stringify(newRoutines));
+}
 
 function Home() {
-  const [screenRoutines, uTodayRoutine] = useState<any>([]);
-  const navigate = useNavigate();
-  const timer2 = useRef<any>(null);
-  const [isRoutineEmpty, setIsRoutineEmpty] = useState(false);
-  const routines = useMemo(() => JSON.parse(ls.get('routines') || '[]'), []);
-  const [showLoading, setShowLoading] = useState(true);
-  const topElement = useRef<HTMLDivElement>(null);
+   const [screenRoutines, uTodayRoutine] = useState<any>([]);
+   const navigate = useNavigate();
+   const timer2 = useRef<any>(null);
+   const [isRoutineEmpty, setIsRoutineEmpty] = useState(false);
+   let routines = useMemo(() => JSON.parse(ls.get('routines') || '[]'), []);
+   const [showLoading, setShowLoading] = useState(true);
+   const topElement = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-     // Check if started using
-     let timer: any = null;
+   useEffect(() => {
+      // Check if started using
+      let timer: any = null;
 
-     const startedUsing = ls.get('startedUsing');
-     if (!startedUsing) {
-        navigate('/start', { replace: true });
-     }
+      let startedUsing = ls.get('startedUsing');
+      if (!startedUsing) {
+         navigate('/start', { replace: true });
+      }
 
-     // Add index property to routines
+      // Add index property to routines
 
-     // If there is no routine show an alert message to go to routine store
-     if (routines.length === 0) {
-        timer = setTimeout(() => {
-           // const ask = confirm('You have no routine. Do you want to go to routine store?')
-           // if (ask) navigate('/apply-routine')
-           setIsRoutineEmpty(true);
-        }, 3000);
-     }
+      // If there is no routine show an alert message to go to routine store
+      if (routines.length === 0) {
+         timer = setTimeout(() => {
+            // const ask = confirm('You have no routine. Do you want to go to routine store?')
+            // if (ask) navigate('/apply-routine')
+            setIsRoutineEmpty(true);
+         }, 3000);
+      }
 
-     routines.forEach((routine: Routine, index: number) => {
-        routine.index = index;
-     });
-     let todayRoutines: Routine[] = searchByDate(new Date(), routines);
-     searchActiveRoutine(todayRoutines);
-     uTodayRoutine(todayRoutines);
+      routines.forEach((routine: Routine, index: number) => {
+         routine.index = index;
+      });
+      let todayRoutines: Routine[] = searchByDate(new Date(), routines);
+      searchActiveRoutine(todayRoutines);
+      uTodayRoutine(todayRoutines);
 
-     timer2.current = setInterval(() => {
-        todayRoutines = searchByDate(new Date(), routines);
-        searchActiveRoutine(todayRoutines);
-        uTodayRoutine(todayRoutines);
-        console.log('Refresh');
-     }, 60000);
+      timer2.current = setInterval(() => {
+         todayRoutines = searchByDate(new Date(), routines);
+         searchActiveRoutine(todayRoutines);
+         uTodayRoutine(todayRoutines);
+         console.log('Refresh');
+      }, 60000);
 
-     return () => {
-        // clearTimeout(timer1.current)
-        clearTimeout(timer2.current);
-        timer && clearTimeout(timer);
-     };
-  }, []);
+      return () => {
+         // clearTimeout(timer1.current)
+         clearTimeout(timer2.current);
+         timer && clearTimeout(timer);
+      };
+   }, []);
 
-  useEffect(() => {
-     // Disable loading after 1.5s
-     const timer = setTimeout(() => {
-        setShowLoading(false);
-     }, 700);
+   useEffect(() => {
+      // Disable loading after 1.5s
+      const timer = setTimeout(() => {
+         setShowLoading(false);
+      }, 700);
 
-     return () => {
-        clearTimeout(timer);
-     };
-  }, [screenRoutines]);
+      return () => {
+         clearTimeout(timer);
+      };
+   }, [screenRoutines]);
 
-  useEffect(() => {
-     // Scroll to top
-     topElement.current?.scrollIntoView({ behavior: 'smooth' });
-  }, []);
+   useEffect(() => {
+      // Scroll to top
+      topElement.current?.scrollIntoView({ behavior: 'smooth' });
+   }, []);
 
-  return (
-     <div className='home-screen screen-navbar select-none dark:bg-black dark:text-darkText'>
-        <div className='scrollToTop' ref={topElement}></div>
-        <Header
-           title={
-              <span>
-                 {getCurrentDate()} <TextEmoji emoji={getEmojiOfDayByTime()} />
-              </span>
-           }
-           notiIcon={true}
-           placeholder='Search Routine'
-        />
+   return (
+      <div className='home-screen screen-navbar select-none dark:bg-black dark:text-darkText'>
+         <div className='scrollToTop' ref={topElement}></div>
+         <Header
+            title={
+               <span>
+                  {getCurrentDate()} <TextEmoji emoji={getEmojiOfDayByTime()} />
+               </span>
+            }
+            notiIcon={true}
+            placeholder='Search Routine'
+         />
 
-        <section className='p-[1.2rem] pt-3'>
-           {showLoading ? (
-              <LoadingRoutines />
-           ) : (
-              <>
-                 <div className='routines flex flex-col gap-[0.9rem]'>
-                    <GetRoutines screenRoutines={screenRoutines} allRoutines={routines} />
-                 </div>
-                 <NewRoutinesLoader />
-              </>
-           )}
-        </section>
-        <FloatingButton />
-        <Watermark />
-        <NavBar active='Home' />
-        <BottomModal
-           show={isRoutineEmpty}
-           btnTxt={[, 'Go to Store']}
-           cb={[
-              ,
-              () => {
-                 navigate('/applyRoutine');
-              },
-           ]}
-        >
-           <NoRoutineUi />
-        </BottomModal>
-     </div>
-  );
+         <section className='p-[1.2rem] pt-3'>
+            {showLoading ? (
+               <LoadingRoutines />
+            ) : (
+               <>
+                  <div className='routines flex flex-col gap-[0.9rem]'>
+                     <GetRoutines screenRoutines={screenRoutines} allRoutines={routines} />
+                  </div>
+                  <NewRoutinesLoader />
+               </>
+            )}
+         </section>
+         <FloatingButton />
+         <Watermark />
+         <NavBar active='Home' />
+         <BottomModal
+            show={isRoutineEmpty}
+            btnTxt={[, 'Go to Store']}
+            cb={[
+               ,
+               () => {
+                  navigate('/applyRoutine');
+               },
+            ]}
+         >
+            <NoRoutineUi />
+         </BottomModal>
+      </div>
+   );
 }
 
 function NoRoutineUi() {
@@ -140,3 +183,95 @@ function NoRoutineUi() {
       </>
    );
 }
+
+function backgroundRoutineUpdate() {
+   // check subscription versions and update
+   const subscriptions = JSON.parse(ls.get('subscriptions') || '{ }');
+   for (let key in subscriptions) {
+      let sub = subscriptions[key];
+      fetch(`https://routine-data.vercel.app/${key}/info.json`)
+         .then((res) => res.json())
+         .then((data: any) => {
+            if (data.vcode === sub.vcode) return;
+            updateRoutines(key, data, subscriptions);
+         });
+   }
+}
+
+function updateRoutines(subscriptionKey: string, subData: any, subscriptions: any) {
+   let status = false;
+   fetch(`https://routine-data.vercel.app/${subscriptionKey}/routine.json`)
+      .then((res) => res.json())
+      .then((data: any) => {
+         // Delete all routines having the 'sub' property in the routine
+         const routines = JSON.parse(ls.get('routines') || '[]');
+         const newRoutines = routines.filter((routine: Routine) => {
+            if (routine.sub === subscriptionKey) return false;
+            console.log('Updating...' + subscriptionKey);
+            return true;
+         });
+         console.log(newRoutines);
+         newRoutines.push(...data);
+         ls.set('routines', JSON.stringify(newRoutines));
+         status = true;
+
+         // update subscriptions
+         subscriptions[subscriptionKey] = subData;
+         ls.set('subscriptions', JSON.stringify(subscriptions));
+      })
+      .catch((err) => {
+         status = false;
+      });
+}
+
+function dailyNotification() {}
+
+export default Home;
+
+// A function that will remove all the expired routines from ls-routines and
+// move them to ls-expiredRoutines to load the app faster
+
+function removeExpiredRoutines() {
+   console.log('Removing expired routines...');
+   const allRoutines: Routine[] = JSON.parse(ls.get('routines') || '[]');
+   const expiredRoutines: Routine[] = JSON.parse(ls.get('expiredRoutines') || '[]');
+   const now = new Date();
+
+   let length = allRoutines.length;
+
+   const validRoutines: Routine[] = [];
+   const invalidRoutines: Routine[] = [...expiredRoutines];
+
+   for (let i = 0; i < length; i++) {
+      let routine = allRoutines[i];
+      if (routine.type === 'calendar' || routine.type === 'holiday') {
+         if (isExpiredCalendarRoutine(routine, now)) invalidRoutines.push(routine);
+         else validRoutines.push(routine);
+      } else if (routine.type === 'once') {
+         if (isExpiredOnceRoutine(routine, now)) invalidRoutines.push(routine);
+         else validRoutines.push(routine);
+      } else {
+         validRoutines.push(routine);
+      }
+   }
+   // Save the valid routines
+   ls.set('routines', JSON.stringify(validRoutines));
+   ls.set('expiredRoutines', JSON.stringify(invalidRoutines));
+}
+
+function isExpiredCalendarRoutine(routine: Routine, now: Date) {
+   let routineDate = new Date(routine.time[0] + 'T00:00');
+   // If more than one month
+   routineDate.setMonth(routineDate.getMonth() + 1);
+   return now.getTime() > routineDate.getTime();
+}
+
+function isExpiredOnceRoutine(routine: Routine, now: Date) {
+   let routineDate = new Date(routine.time[1]);
+   // If more than one month
+   routineDate.setMonth(routineDate.getMonth() + 1);
+   return now.getTime() > routineDate.getTime();
+}
+
+// After 5sec of loading the app, check if there is any expired routine
+setTimeout(removeExpiredRoutines, 5000);

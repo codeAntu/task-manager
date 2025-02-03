@@ -32,7 +32,7 @@ function EnterValidRoutineIdUI() {
          </div>
          <p className='mt-5 text-center text-xs font-[450] text-grey'>
             If you cannot find your routine ID, please contact{' '}
-            <a className='text-accent' href='mailto:codeAbinash@gmail.com'>
+            <a className='text-accent' href='mailto:codeAntu@gmail.com'>
                me
             </a>
             .
@@ -106,7 +106,7 @@ function RoutineNotFoundUI({ routineId }: { routineId: string }) {
             is not available. Please check the routine id again. <br />
             <br />
             Or Report this problem to{' '}
-            <a className='text-accent' href='mailto:codeAbinash@gmail.com'>
+            <a className='text-accent' href='mailto:codeAntu@gmail.com'>
                me
             </a>
             .

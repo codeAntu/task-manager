@@ -1,6 +1,6 @@
-import details from "../info";
+import details from '../info';
 
-const reqCount = 0;
+let reqCount = 0;
 
 const ls = {
    get: (item: string) => {
@@ -10,7 +10,7 @@ const ls = {
       return localStorage.setItem(details.name + item, data);
    },
    clear: () => {
-      for (const elem in localStorage) {
+      for (let elem in localStorage) {
          if (elem.startsWith(details.name)) localStorage.removeItem(elem);
       }
    },

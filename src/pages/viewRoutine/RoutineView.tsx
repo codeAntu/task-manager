@@ -5,6 +5,7 @@ import { Routine } from '../../lib/dateMethods';
 import { df } from '../../lib/delay';
 import { useDark } from '../../lib/lib';
 import ls from '../../lib/storage';
+import { BackupType } from '../backup-restore/file';
 import Calendar from './Calendar';
 import Daily from './Daily';
 import Once from './Once';

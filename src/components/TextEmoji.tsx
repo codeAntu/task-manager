@@ -1,6 +1,5 @@
 import Emoji from 'emoji-store';
 import { parseEmoji } from '../lib/lib';
-
 let e_apple = new Emoji({
    author: 'apple',
    size: 160,

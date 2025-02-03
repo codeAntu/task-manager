@@ -1,14 +1,14 @@
 import React, { useMemo, useState } from 'react';
+import BackHeader from '../../components/BackHeader';
 import images from '../../assets/images/images';
 import ls from '../../lib/storage';
 import icons from '../../assets/icons/icons';
 import TextEmoji from '../../components/TextEmoji';
 import { BackupType } from './file';
+import BottomModal, { BasicModal } from '../../components/BottomModal';
 import { MODAL_BUTTON_TEXT } from '../../lib/lib';
 import Emoji from 'emoji-store';
 import { useNavigate } from 'react-router-dom';
-import BackHeader from '../../components/BackHeader';
-import BottomModal, { BasicModal } from '../../components/BottomModal';
 function Restore() {
    const startedUsing = ls.get('startedUsing');
    return (

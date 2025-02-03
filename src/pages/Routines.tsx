@@ -1,9 +1,12 @@
 import Emoji from 'emoji-store';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import FloatingButton from '../components/FloatingButton';
 import Header from '../components/Header';
 import Loading from '../components/loading/Loading';
+import NavBar from '../components/NavBar';
 import TextEmoji from '../components/TextEmoji';
+import Watermark from '../components/Watermark';
 import { getFormattedDate } from '../lib/date';
 import { Routine, TypedList, TypedTypes } from '../lib/dateMethods';
 import delay, { df } from '../lib/delay';
@@ -12,8 +15,6 @@ import ls from '../lib/storage';
 import RoutineView from './viewRoutine/RoutineView';
 import LoadingRoutines from '../components/loading/LoadingRoutines';
 import icons from '../assets/icons/icons';
-import FloatingButton from '../components/FloatingButton';
-import NavBar from '../components/NavBar';
 
 export function searchRoutine(routines: Routine[], query: string) {
    // Return filtered routines
