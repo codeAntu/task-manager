@@ -135,7 +135,7 @@ function Home() {
             placeholder='Search Routine'
          />
 
-         <section className='p-[1.2rem] pt-3'>
+         <section className='mx-auto max-w-4xl p-[1.2rem] pt-3'>
             {showLoading ? (
                <LoadingRoutines />
             ) : (

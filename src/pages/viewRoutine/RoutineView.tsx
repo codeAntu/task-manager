@@ -79,7 +79,7 @@ export default function RoutineView({
    if (!routines[index] || !expiredRoutines) return null;
 
    return (
-      <>
+      <div>
          <div
             className={`h-[100dvh] w-full duration-[300ms] ${backDisplay ? 'flex' : 'hidden'}
           fixed left-0 top-0 z-[50] bg-transparent transition-all ease-linear ${dark ? '' : 'modal-bg-linear-grad'}
@@ -95,13 +95,13 @@ export default function RoutineView({
          ></div>
 
          <div
-            className={`fixed z-[51] max-h-[95vh] overflow-auto ${
+            className={`fixed z-[51] max-h-[95vh] max-w-4xl overflow-auto  ${
                isShow ? 'bottom-0' : 'bottom-[-150vh]'
-            } left-0 w-full rounded-t-[2.5rem] bg-white p-5 transition-all duration-[400ms] ease-in-out dark:bg-[#111]`}
+            } left-1/2 w-full translate-x-[-50%] rounded-t-[2.5rem] bg-white p-5 transition-all duration-[400ms] ease-in-out dark:bg-[#111]`}
          >
             <div className='bar mx-auto h-[0.3rem] w-12 rounded-full bg-[#77777744]'></div>
             <div className='mb-5'>
-               <p className='text-balance mb-6 mt-5 line-clamp-2 px-[10%] text-center text-lg font-medium'>
+               <p className='mb-6 mt-5 line-clamp-2 text-balance px-[10%] text-center text-lg font-medium'>
                   {expired ? expiredRoutines![index].name : routines[index].name}
                </p>
                {expired ? (
@@ -156,7 +156,7 @@ export default function RoutineView({
                </button>
             </div>
          </div>
-      </>
+      </div>
    );
 }
 

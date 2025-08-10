@@ -1,8 +1,8 @@
 function LoadingRoutine() {
    return (
-      <div className='flex items-center justify-center'>
+      <div className='flex w-full items-center justify-center '>
          <div
-            className='routine tap99 flex w-full flex-col flex-wrap rounded-[1.6rem] border-[1px] border-routine_border bg-routine_bg p-[1.2rem] dark:border-routine_border_dark dark:bg-darkInputBg md:w-[49.5%] lg:w-[32.5%]'
+            className='routine tap99 flex w-full flex-col flex-wrap rounded-[1.6rem] border-[1px] border-routine_border bg-routine_bg p-[1.2rem] dark:border-routine_border_dark dark:bg-darkInputBg '
             key='{randomString(5)}'
          >
             <div className='top flex flex-row gap-3'>
@@ -28,7 +28,7 @@ function LoadingRoutine() {
 
 export default function LoadingRoutines() {
    return (
-      <div className='flex w-full flex-col gap-3'>
+      <div className='grid w-full gap-3 '>
          <LoadingRoutine />
          <LoadingRoutine />
          <LoadingRoutine />
