@@ -7,7 +7,7 @@ export default function Messages() {
    return (
       <div className='min-h-[100dvh] items-center text-dark dark:text-darkText'>
          <BackHeader title='Messages' />
-         <div className='flex min-h-[85vh] flex-col items-center justify-center'>
+         <div className='flex min-h-[85vh] flex-col items-center justify-center max-w-4xl mx-auto'>
             <div className='min-h[85vh] bg-red flex w-full flex-col justify-center gap-[5vh]'>
                <p className='text-center text-2xl font-semibold'>
                   Connect <TextEmoji emoji='💬' /> with your <br /> friends anytime
