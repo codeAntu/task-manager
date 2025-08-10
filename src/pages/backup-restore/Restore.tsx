@@ -15,7 +15,7 @@ function Restore() {
       <div className='restore screen dark:text-darkText '>
          {startedUsing ? <BackHeader title='Restore data' /> : null}
          <div
-            className={` max-w-4xl mx-auto ${startedUsing ? 'min-h-[85vh]' : 'min-h-[100vh]'} flex flex-col items-center
+            className={` mx-auto max-w-4xl ${startedUsing ? 'min-h-[85vh]' : 'min-h-[100vh]'} flex flex-col items-center
        justify-between gap-5 p-5 `}
          >
             <p className='whitespace-pre text-balance text-center text-xl font-semibold'>

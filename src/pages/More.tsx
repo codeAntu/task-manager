@@ -177,15 +177,15 @@ function More() {
          },
          rightArrow: true,
       },
-      {
-         name: 'Contributors',
-         icon: icons.team,
-         callback: () => {
-            navigate('/author/team');
-         },
-         rightArrow: true,
-         // iconOriginal : true
-      },
+      // {
+      //    name: 'Contributors',
+      //    icon: icons.team,
+      //    callback: () => {
+      //       navigate('/author/team');
+      //    },
+      //    rightArrow: true,
+      //    // iconOriginal : true
+      // },
    ];
 
    const navigate = useNavigate();
@@ -205,10 +205,11 @@ function More() {
 
    return (
       <div className='screen dark:text-darkText '>
-         <BottomModal show={isShow} btnTxt={modalButtons} cb={modalCallbacks}>
-            {ModalUI}
-         </BottomModal>
-
+         <div className='w-full'>
+            <BottomModal show={isShow} btnTxt={modalButtons} cb={modalCallbacks}>
+               {ModalUI}
+            </BottomModal>
+         </div>
          <div className='topElement' ref={topElement}></div>
          <Header
             title={

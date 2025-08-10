@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-import delay, { df } from '../lib/delay';
 import Emoji from 'emoji-store';
+import delay, { df } from '../lib/delay';
 import { useDark } from '../lib/lib';
 
 export default function BottomModal({
@@ -69,9 +68,8 @@ export default function BottomModal({
          ></div>
 
          <div
-            className={`fixed z-[101] max-h-[95vh] overflow-auto ${
-               isShow ? 'bottom-0' : 'bottom-[-150vh]'
-            } w-full rounded-t-[2.5rem] bg-white p-5 transition-all duration-[400ms] ease-in-out dark:bg-[#111]`}
+            className={`fixed left-1/2 z-[101] max-h-[95vh] w-full max-w-4xl -translate-x-1/2 overflow-auto rounded-2xl bg-white p-5 transition-all duration-[400ms] 
+            ease-in-out dark:bg-[#111] ${isShow ? 'bottom-0 scale-100 opacity-100' : 'bottom-[-150vh] scale-90 opacity-0'}`}
          >
             <div className='bar mx-auto mb-12 h-[0.3rem] w-12 rounded-full bg-[#77777744]'></div>
 
@@ -117,7 +115,7 @@ export function BasicModal({ text, desc, emoji }: { text: any; desc?: any; emoji
             />
             <img src={Emoji.get(emoji || '🤔')} alt='emoji' className={`place-1-1 z-10 mx-auto mt-5 h-24 w-24`} />
          </div>
-         <p className='text-balance mt-5 px-[5%] text-center text-xs font-[450] text-grey'>{desc}</p>
+         <p className='mt-5 text-balance px-[5%] text-center text-xs font-[450] text-grey'>{desc}</p>
       </>
    );
 }
