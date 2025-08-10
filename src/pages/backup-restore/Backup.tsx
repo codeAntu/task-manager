@@ -1,19 +1,16 @@
 import { useState } from 'react';
-import images from '../../assets/images/images';
-import BackHeader from '../../components/BackHeader';
 import icons from '../../assets/icons/icons';
-import ls from '../../lib/storage';
+import BackHeader from '../../components/BackHeader';
 import TextEmoji from '../../components/TextEmoji';
-import Loading from '../../components/loading/Loading';
-import Emoji from 'emoji-store';
 import { df } from '../../lib/delay';
+import ls from '../../lib/storage';
 import { BackupType } from './file';
 
 function Backup() {
    return (
       <div className='backup screen dark:text-darkText'>
          <BackHeader title='Backup your data' />
-         <div className='flex min-h-[80dvh] flex-col items-center justify-center gap-7 p-5'>
+         <div className='mx-auto flex min-h-[80dvh] max-w-4xl flex-col items-center justify-center gap-7 p-5'>
             <p className='whitespace-pre text-balance text-center text-xl font-semibold'>
                Backup your data <TextEmoji emoji='📂' />{' '}
             </p>
