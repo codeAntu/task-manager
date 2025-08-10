@@ -67,7 +67,9 @@ export default function ApplyRoutine() {
             <p className='px-4 py-2 text-center text-xs text-grey'>
                You have subscribed to the following routine(s). {applyRoutineStatus}
             </p>
-            <Routines deleteRoutine={deleteRoutine} />
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3'>
+               <Routines deleteRoutine={deleteRoutine} />
+            </div>
          </div>
       </div>
    );
