@@ -12,11 +12,11 @@ import { useNavigate } from 'react-router-dom';
 function Restore() {
    const startedUsing = ls.get('startedUsing');
    return (
-      <div className='restore screen dark:text-darkText'>
+      <div className='restore screen dark:text-darkText '>
          {startedUsing ? <BackHeader title='Restore data' /> : null}
          <div
-            className={`${startedUsing ? 'min-h-[85vh]' : 'min-h-[100vh]'} flex flex-col items-center
-       justify-between gap-5 p-5`}
+            className={` max-w-4xl mx-auto ${startedUsing ? 'min-h-[85vh]' : 'min-h-[100vh]'} flex flex-col items-center
+       justify-between gap-5 p-5 `}
          >
             <p className='whitespace-pre text-balance text-center text-xl font-semibold'>
                Restore Your <br /> Backed up data <TextEmoji emoji='📂' />{' '}
