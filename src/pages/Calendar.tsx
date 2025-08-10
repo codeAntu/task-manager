@@ -1,18 +1,16 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import icons from '../assets/icons/icons';
 import FloatingButton from '../components/FloatingButton';
 import NavBar from '../components/NavBar';
-import { getEmojiByDay, getMonthYear } from '../lib/date';
-import searchByDate, { searchActiveRoutine } from '../lib/dateMethods';
+import TextEmoji from '../components/TextEmoji';
+import Watermark from '../components/Watermark';
+import { getDay, getEmojiByDay, getFormattedDate } from '../lib/date';
+import searchByDate, { Routine, searchActiveRoutine } from '../lib/dateMethods';
 import delay from '../lib/delay';
+import headerIntersect from '../lib/headerIntersect';
 import ls from '../lib/storage';
 import { GetRoutines } from './NewRoutinesLoader';
-import { Routine } from '../lib/dateMethods';
-import { getFormattedDate, getDay } from '../lib/date';
-import headerIntersect from '../lib/headerIntersect';
-import Watermark from '../components/Watermark';
-import TextEmoji from '../components/TextEmoji';
 
 function willShowDot(routines: Array<Routine>) {
    const dotStatus = [false, false];
@@ -90,138 +88,145 @@ function Calendar() {
    }
 
    return (
-      <div className='screen screen dark:text-darkText'>
+      <div className='screen screen dark:text-darkText '>
          <div className='scrollToTop' ref={topElement}></div>
-         <div className='topArea'>
-            <header
-               className={`${isIntersecting ? '' : 'shadow-sm dark:shadow-white/10'} fixed top-0 z-50 flex w-full
+         <div className='grid gap-4 md:h-[100vh] md:grid-cols-2'>
+            <div className='topArea'>
+               <header
+                  className={`${isIntersecting ? '' : 'shadow-sm dark:shadow-white/10'} fixed top-0 z-50 flex w-full
          flex-row items-center justify-between bg-white/70 p-4 py-2.5 backdrop-blur-md transition dark:bg-black/60
          `}
-            >
-               <div
-                  onClick={() => {
-                     let date = new Date(currentYear, currentMonth - 1, currentDate);
-                     handleDateClick(date);
-                  }}
-                  className='left'
                >
-                  <img
-                     src={icons.left_arrow}
-                     className='tap aspect-square w-[2.3rem] rounded-xl bg-white/50 p-2.5 pl-2 opacity-80 active:bg-inputBg dark:invert'
-                  />
-               </div>
-               <div className='middle flex items-center justify-center gap-2'>
-                  <p className='font-medium'>{getMonthYear(date)}</p>
-                  {!isSameMonth(now, date) && (
-                     <div
-                        className='tap active rounded-full bg-accent px-3 py-1 text-[0.6rem] text-white shadow-lg shadow-accent/50'
-                        onClick={() =>
-                           delay(() => {
-                              handleDateClick(now);
-                              setRoutineDate(now);
-                              scrollToTop();
-                           }, 60)
-                        }
-                     >
-                        Now
-                     </div>
-                  )}
-               </div>
-               <div
-                  className='right'
-                  onClick={() => {
-                     let date = new Date(currentYear, currentMonth + 1, currentDate);
-                     handleDateClick(date);
-                  }}
-               >
-                  <img
-                     src={icons.left_arrow}
-                     className='tap aspect-square w-[2.3rem] rotate-180 rounded-xl bg-white/50 p-2.5 pl-2 opacity-80 active:bg-inputBg dark:invert'
-                  />
-               </div>
-            </header>
-            <div className='calendar p-5 pb-0 pt-20'>
-               <div className='calenderDayHeadings flex w-full'>
-                  {days.map((day, index) => {
-                     let isWeekEnd = index % 6 === 0;
-                     return (
-                        <div className='day w-[calc(100%/7)]' key={index}>
-                           <p
-                              className={`text-center text-[0.65rem] font-medium text-grey ${
-                                 isWeekEnd ? 'opacity-60' : ''
-                              }`}
-                           >
-                              {day}
-                           </p>
+                  <div
+                     onClick={() => {
+                        let date = new Date(currentYear, currentMonth - 1, currentDate);
+                        handleDateClick(date);
+                     }}
+                     className='left'
+                  >
+                     <img
+                        src={icons.left_arrow}
+                        className='tap aspect-square w-[2.3rem] rounded-xl bg-white/50 p-2.5 pl-2 opacity-80 active:bg-inputBg dark:invert'
+                     />
+                  </div>
+                  <div className='middle flex items-center justify-center gap-2'>
+                     <p className='font-medium'>{getMonthYear(date)}</p>
+                     {!isSameMonth(now, date) && (
+                        <div
+                           className='tap active rounded-full bg-accent px-3 py-1 text-[0.6rem] text-white shadow-lg shadow-accent/50'
+                           onClick={() =>
+                              delay(() => {
+                                 handleDateClick(now);
+                                 setRoutineDate(now);
+                                 scrollToTop();
+                              }, 60)
+                           }
+                        >
+                           Now
                         </div>
-                     );
-                  })}
-               </div>
-               <div className='calenderDays mt-4'>
-                  {calenderDays.map((week: [number], i: number) => {
-                     const date = new Date(currentYear, currentMonth, i);
-                     return (
-                        <div className='week flex w-full' key={i}>
-                           {week.map((day: number, j: number) => {
-                              let isWeekEnd = j % 6 === 0;
-                              if (day !== 0) {
-                                 date.setDate(day);
-                                 const isSameDate = checkIfSameDate(now, date);
-                                 return (
-                                    <div
-                                       className={`day tap97 calenderDate flex aspect-square flex-1 items-center justify-center`}
-                                       key={j}
-                                    >
+                     )}
+                  </div>
+                  <div
+                     className='right'
+                     onClick={() => {
+                        let date = new Date(currentYear, currentMonth + 1, currentDate);
+                        handleDateClick(date);
+                     }}
+                  >
+                     <img
+                        src={icons.left_arrow}
+                        className='tap aspect-square w-[2.3rem] rotate-180 rounded-xl bg-white/50 p-2.5 pl-2 opacity-80 active:bg-inputBg dark:invert'
+                     />
+                  </div>
+               </header>
+               <div className='calendar p-5 pb-0 pt-20'>
+                  <div className='calenderDayHeadings flex w-full'>
+                     {days.map((day, index) => {
+                        let isWeekEnd = index % 6 === 0;
+                        return (
+                           <div className='day w-[calc(100%/7)]' key={index}>
+                              <p
+                                 className={`text-center text-[0.65rem] font-medium text-grey ${
+                                    isWeekEnd ? 'opacity-60' : ''
+                                 }`}
+                              >
+                                 {day}
+                              </p>
+                           </div>
+                        );
+                     })}
+                  </div>
+                  <div className='calenderDays mt-4 '>
+                     {calenderDays.map((week: [number], i: number) => {
+                        const date = new Date(currentYear, currentMonth, i);
+                        return (
+                           <div className='week flex w-full' key={i}>
+                              {week.map((day: number, j: number) => {
+                                 let isWeekEnd = j % 6 === 0;
+                                 if (day !== 0) {
+                                    date.setDate(day);
+                                    const isSameDate = checkIfSameDate(now, date);
+                                    return (
                                        <div
-                                          className={`contain flex aspect-square w-[75%] items-center justify-center rounded-xl border-transparent transition
+                                          className={`day tap97 calenderDate flex aspect-square flex-1 items-center justify-center`}
+                                          key={j}
+                                       >
+                                          <div
+                                             className={`contain flex aspect-square w-[75%] items-center justify-center rounded-xl border-transparent transition
                               ${isSameDate ? 'active bg-accent text-white shadow-xl shadow-accent/50' : ''}
                               hover:border-2 hover:border-accent`}
-                                          onClick={() => {
-                                             const date = new Date(currentYear, currentMonth, day);
-                                             setRoutineDate(date);
-                                          }}
-                                       >
-                                          <p
-                                             className={`aspect-square p-2 pb-2.5 text-center text-[0.7rem] font-medium ${
-                                                isWeekEnd ? 'opacity-60' : ''
-                                             }  
-                                  ${isSameDate ? 'text-white' : ''}`}
+                                             onClick={() => {
+                                                const date = new Date(currentYear, currentMonth, day);
+                                                setRoutineDate(date);
+                                             }}
                                           >
-                                             {day}
-                                          </p>
+                                             <p
+                                                className={`aspect-square p-2 pb-2.5 text-center text-[0.7rem] font-medium ${
+                                                   isWeekEnd ? 'opacity-60' : ''
+                                                }  
+                                  ${isSameDate ? 'text-white' : ''}`}
+                                             >
+                                                {day}
+                                             </p>
 
-                                          <div className='dots absolute mt-[1.2rem] flex gap-1'>
-                                             <ActiveDots
-                                                routines={routines}
-                                                isSameDate={isSameDate}
-                                                date={new Date(currentYear, currentMonth, day)}
-                                             />
+                                             <div className='dots absolute mt-[1.2rem] flex gap-1'>
+                                                <ActiveDots
+                                                   routines={routines}
+                                                   isSameDate={isSameDate}
+                                                   date={new Date(currentYear, currentMonth, day)}
+                                                />
+                                             </div>
                                           </div>
                                        </div>
-                                    </div>
-                                 );
-                              } else
-                                 return (
-                                    <div className='day flex-1 select-none opacity-0' key={j}>
-                                       <p className='text-secondary text-center text-xs'>X</p>
-                                    </div>
-                                 );
-                           })}
-                        </div>
-                     );
-                  })}
+                                    );
+                                 } else
+                                    return (
+                                       <div className='day flex-1 select-none opacity-0' key={j}>
+                                          <p className='text-secondary text-center text-xs'>X</p>
+                                       </div>
+                                    );
+                              })}
+                           </div>
+                        );
+                     })}
+                  </div>
+               </div>
+            </div>
+            <div className='events flex-1 md:overflow-y-auto md:pt-10'>
+               <p className='my-5 text-center text-xs font-medium text-[#777]/50'>
+                  Routines for {getFormattedDate(routineDate)}, {getDay(routineDate)}{' '}
+                  <TextEmoji emoji={getEmojiByDay(routineDate)} />
+               </p>
+               <div className='routines flex flex-col gap-3 p-4'>
+                  <GetRoutines screenRoutines={routinesOfTheDay} allRoutines={routines} />
+                  <GetRoutines screenRoutines={routinesOfTheDay} allRoutines={routines} />
+                  <GetRoutines screenRoutines={routinesOfTheDay} allRoutines={routines} />
+                  <GetRoutines screenRoutines={routinesOfTheDay} allRoutines={routines} />
+                  <GetRoutines screenRoutines={routinesOfTheDay} allRoutines={routines} />
                </div>
             </div>
          </div>
-         <div className='events'>
-            <p className='my-5 text-center text-xs font-medium text-[#777]/50'>
-               Routines for {getFormattedDate(routineDate)}, {getDay(routineDate)}{' '}
-               <TextEmoji emoji={getEmojiByDay(routineDate)} />
-            </p>
-            <div className='routines flex flex-col gap-3 p-4'>
-               <GetRoutines screenRoutines={routinesOfTheDay} allRoutines={routines} />
-            </div>
-         </div>
+
          <div className='pb-20'>
             <Watermark />
          </div>
