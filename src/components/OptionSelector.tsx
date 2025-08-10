@@ -33,13 +33,13 @@ export default function OptionSelector({
    return (
       <>
          <div
-            className={`fixed left-0 top-0 h-[100vh] w-[100vw] items-center justify-center bg-black/20 backdrop-blur-sm dark:bg-transparent
+            className={`fixed left-0 top-0 h-[100vh] w-[100vw]  items-center justify-center bg-black/20 backdrop-blur-sm dark:bg-transparent
          ${isOpen ? 'flex' : 'hidden'} z-[70]`}
             onClick={() => {
                setIsOpen(false);
             }}
          >
-            <div className='min-h-[100px] w-[80%] overflow-hidden rounded-3xl bg-white p-4 px-0 py-0 backdrop-blur-sm dark:bg-[#1a1a1a]'>
+            <div className='min-h-[100px] w-[80%] overflow-hidden rounded-3xl max-w-[350px] mx-auto bg-white p-4 px-0 py-0 backdrop-blur-sm dark:bg-[#1a1a1a]'>
                <p className='py-5 pt-6 text-center font-semibold'>{heading}</p>
                <div className={`flex flex-col items-start justify-center tracking-wide`}>
                   {options.map((option, index) => {

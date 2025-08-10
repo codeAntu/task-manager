@@ -204,7 +204,7 @@ function More() {
    }, []);
 
    return (
-      <div className='screen dark:text-darkText'>
+      <div className='screen dark:text-darkText '>
          <BottomModal show={isShow} btnTxt={modalButtons} cb={modalCallbacks}>
             {ModalUI}
          </BottomModal>
@@ -224,7 +224,7 @@ function More() {
             }}
          />
 
-         <section className='p-[1.2rem] pt-2'>
+         <section className='mx-auto max-w-4xl p-[1.2rem] pt-2'>
             <div className='tap99 w-full rounded-3xl bg-dark p-6 text-white' onClick={df(() => navigate('/changelog'))}>
                <div className=' flex w-full items-center justify-between'>
                   <div className='left'>
@@ -315,7 +315,6 @@ function More() {
                   );
                })}
             </div>
-
          </section>
          <div className='pb-20'>
             <Watermark />
@@ -335,7 +334,7 @@ function ResetEverythingUI() {
             <img src={Emoji.get('🤯')} alt='bag' className={`place-1-1 mx-auto mt-5 h-24 w-24 opacity-50 blur-lg `} />
             <img src={Emoji.get('🤯')} alt='bag' className={`place-1-1 z-10 mx-auto mt-5 h-24 w-24`} />
          </div>
-         <p className='text-balance mt-5 text-center text-xs font-[450] text-grey'>
+         <p className='mt-5 text-balance text-center text-xs font-[450] text-grey'>
             It is advised to keep a backup before resetting everything. This will delete all your routines,
             subscriptions, and settings. This action cannot be undone. Are you sure?
          </p>
@@ -353,7 +352,7 @@ function JoinTelegramUi() {
             <img src={icons.telegram} alt='bag' className={`place-1-1 mx-auto  mt-5 h-28 w-28 opacity-50 blur-lg`} />
             <img src={icons.telegram} alt='bag' className={`place-1-1 z-10 mx-auto mt-5 h-28 w-28`} />
          </div>
-         <p className='text-balance mt-5 text-center text-xs font-[450] text-grey'>
+         <p className='mt-5 text-balance text-center text-xs font-[450] text-grey'>
             Join Telegram Channel{' '}
             <a href='https://t.me/routine_application' target='_blank' className='text-accent'>
                routine_application
@@ -373,7 +372,7 @@ function FeedBackUi() {
             <img src={icons.chat} alt='bag' className={`place-1-1 mx-auto mt-5  h-24 w-24 opacity-50 blur-lg`} />
             <img src={icons.chat} alt='bag' className={`place-1-1 z-10 mx-auto mt-5 h-24 w-24`} />
          </div>
-         <p className='text-balance mt-5 text-center text-xs font-[450] text-grey'>
+         <p className='mt-5 text-balance text-center text-xs font-[450] text-grey'>
             Your feedback is valuable. Please send your feedback to{' '}
             <a
                href='mailto:codeAntu@gmail.com?subject=Feedback of Routine Application'
