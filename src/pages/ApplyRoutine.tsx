@@ -171,7 +171,7 @@ export default function ApplyRoutine() {
             placeholder='Search Routine'
             onInput={() => {}}
          />
-         <div className='flex flex-col gap-4 px-5 py-1'>
+         <div className='flex flex-col gap-4 px-5 py-1 '>
             {!startedUsing ? (
                <div className='flex flex-row justify-between rounded-[14px] bg-accent/20 p-[0.85rem] px-4 text-sm'>
                   <p>You can skip it for now.</p>
@@ -184,7 +184,7 @@ export default function ApplyRoutine() {
             )}
             {/* <p className="text-sm">Select Your Preferred Routine</p> */}
 
-            <div className='flex justify-between gap-2'>
+            <div className='flex justify-between gap-2 '>
                <input
                   value={routineIdByInput}
                   onInput={(e: any) => setRoutineIdByInput(e.target.value)}
@@ -201,7 +201,9 @@ export default function ApplyRoutine() {
             </div>
 
             <p className='text-center text-xs text-grey'>{applyRoutineStatus}</p>
-            <Routines addRoutine={addRoutine} subscription={subscription} />
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3'>
+               <Routines addRoutine={addRoutine} subscription={subscription} />
+            </div>
          </div>
       </div>
    );
