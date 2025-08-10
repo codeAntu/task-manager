@@ -79,7 +79,7 @@ export default function RoutineView({
    if (!routines[index] || !expiredRoutines) return null;
 
    return (
-      <div>
+      <>
          <div
             className={`h-[100dvh] w-full duration-[300ms] ${backDisplay ? 'flex' : 'hidden'}
           fixed left-0 top-0 z-[50] bg-transparent transition-all ease-linear ${dark ? '' : 'modal-bg-linear-grad'}
@@ -95,7 +95,7 @@ export default function RoutineView({
          ></div>
 
          <div
-            className={`fixed z-[51] max-h-[95vh] max-w-4xl overflow-auto  ${
+            className={`fixed z-[51] max-h-[95vh] max-w-4xl  overflow-auto  ${
                isShow ? 'bottom-0' : 'bottom-[-150vh]'
             } left-1/2 w-full translate-x-[-50%] rounded-t-[2.5rem] bg-white p-5 transition-all duration-[400ms] ease-in-out dark:bg-[#111]`}
          >
@@ -156,7 +156,7 @@ export default function RoutineView({
                </button>
             </div>
          </div>
-      </div>
+      </>
    );
 }
 

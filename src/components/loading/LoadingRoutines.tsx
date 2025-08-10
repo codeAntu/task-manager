@@ -28,7 +28,7 @@ function LoadingRoutine() {
 
 export default function LoadingRoutines() {
    return (
-      <div className='grid w-full gap-3 '>
+      <div className='grid w-full gap-3 md:grid-cols-2 lg:grid-cols-3 '>
          <LoadingRoutine />
          <LoadingRoutine />
          <LoadingRoutine />

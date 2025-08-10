@@ -105,7 +105,7 @@ function Routines() {
    }
 
    return (
-      <div className='routines-screen screen-navbar select-none dark:bg-black dark:text-darkText'>
+      <div className='routines-screen  screen-navbar select-none dark:bg-black dark:text-darkText'>
          <div className='scrollToTop' ref={topElement}></div>
          <Header
             title={
@@ -119,7 +119,7 @@ function Routines() {
             rightIcon={Emoji.get('👜')}
             rightIconClick={() => delay(() => navigate('/applyRoutine'))}
          />
-         <section className='pb-20 pt-2'>
+         <section className='pb-20 pt-2 '>
             {/* <p className='text-[#777]/50 text-center mt-2 mb-5 text-sm font-medium'>All routines</p> */}
             <div>
                <div className='scrollbar-hidden flex flex-nowrap gap-2 overflow-auto px-[1.2rem] pb-6'>
@@ -184,7 +184,7 @@ function Routines() {
                      Expired
                   </div>
                </div>
-               <div className='routines flex flex-wrap justify-center gap-[0.9rem] p-[1.2rem] pt-0'>
+               <div className='routines  flex flex-wrap justify-center gap-[0.9rem] p-[1.2rem] pt-0'>
                   <AllRoutines
                      allRoutines={allRoutines}
                      screenRoutines={screenRoutines}
@@ -231,7 +231,7 @@ function AllRoutines({
 
    if (screenRoutines.length === 0)
       return (
-         <div className='mt-10 flex min-h-[55vh] flex-col items-center justify-center gap-10'>
+         <div className='mt-10 flex min-h-[55vh] flex-col items-center justify-center gap-10 '>
             <div className='flex flex-col items-center justify-center gap-5 px-5'>
                <img src={icons.app_icon_transparent_256} className='w-[55%] dark:opacity-40 dark:grayscale' />
                <p className='text-center text-base font-medium text-[#777]/70'>
@@ -248,10 +248,12 @@ function AllRoutines({
                   </span>
                </p>
             </div>
-            {/* <button className='no-highlight block bg-dark shadow-lg shadow-dark/50 text-white py-3 px-7 text-[0.7rem] font-medium rounded-full tap97'
-                onClick={() => delay(() => navigate('/applyRoutine'))}>
-                Routine Store <TextEmoji emoji='👜' />
-            </button> */}
+            <button
+               className='no-highlight tap97 block rounded-full bg-dark px-7 py-3 text-[0.7rem] font-medium text-white shadow-lg shadow-dark/50'
+               onClick={() => delay(() => navigate('/applyRoutine'))}
+            >
+               Routine Store <TextEmoji emoji='👜' />
+            </button>
          </div>
       );
 
@@ -272,44 +274,46 @@ function AllRoutines({
                },
             ]}
          />
-         {screenRoutines.map((routine: Routine, index) => {
-            return (
-               <div
-                  className='routine tap99 flex w-full flex-col flex-wrap rounded-[1.6rem] border-[1px] border-routine_border bg-routine_bg p-[1.2rem] dark:border-routine_border_dark dark:bg-darkInputBg md:w-[49.5%] lg:w-[32.5%]'
-                  key={randomString(5)}
-                  onClick={() => {
-                     setCurrentRoutineViewIndex(routine.index);
-                     setRoutineModal(true);
-                  }}
-               >
-                  <div className='top flex flex-row gap-3'>
-                     <div className='left'>
-                        <div className='emoji bg-main flex-center aspect-square flex-1 rounded-xl p-2 dark:bg-black/40'>
-                           <img src={Emoji.get(routine.emoji || '⏰')} className='aspect-square w-[25px]' />
+         <div className='grid w-full grid-cols-1 gap-3 md:grid-cols-2  xl:grid-cols-3'>
+            {screenRoutines.map((routine: Routine, index) => {
+               return (
+                  <div
+                     className='routine tap99 flex w-full flex-col flex-wrap rounded-[1.6rem] border-[1px] border-routine_border bg-routine_bg p-[1.2rem] dark:border-routine_border_dark dark:bg-darkInputBg '
+                     key={randomString(5)}
+                     onClick={() => {
+                        setCurrentRoutineViewIndex(routine.index);
+                        setRoutineModal(true);
+                     }}
+                  >
+                     <div className='top flex flex-row gap-3 '>
+                        <div className='left'>
+                           <div className='emoji bg-main flex-center aspect-square flex-1 rounded-xl p-2 dark:bg-black/40'>
+                              <img src={Emoji.get(routine.emoji || '⏰')} className='aspect-square w-[25px]' />
+                           </div>
+                        </div>
+                        <div className='right flex-center flex flex-1 flex-row justify-between gap-3'>
+                           <div className='name'>
+                              <p className={`text-[0.95rem] font-[550] ${false ? 'text-white' : ''} line-clamp-2`}>
+                                 {routine.name}
+                              </p>
+                           </div>
+                           <div className='time'>
+                              <p
+                                 className={`text-[0.6rem]  font-[450] ${
+                                    false ? 'text-white/80' : 'text-secondary'
+                                 } text-right`}
+                              >
+                                 {capitalize(routine.type)}
+                              </p>
+                           </div>
                         </div>
                      </div>
-                     <div className='right flex-center flex flex-1 flex-row justify-between gap-3'>
-                        <div className='name'>
-                           <p className={`text-[0.95rem] font-[550] ${false ? 'text-white' : ''} line-clamp-2`}>
-                              {routine.name}
-                           </p>
-                        </div>
-                        <div className='time'>
-                           <p
-                              className={`text-[0.6rem]  font-[450] ${
-                                 false ? 'text-white/80' : 'text-secondary'
-                              } text-right`}
-                           >
-                              {capitalize(routine.type)}
-                           </p>
-                        </div>
-                     </div>
+                     <RoutineDescription routine={routine} />
+                     <ShowRoutineTime routine={routine} />
                   </div>
-                  <RoutineDescription routine={routine} />
-                  <ShowRoutineTime routine={routine} />
-               </div>
-            );
-         })}
+               );
+            })}
+         </div>
       </>
    );
 }
